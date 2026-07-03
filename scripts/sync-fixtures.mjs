@@ -9,6 +9,7 @@ const dest = resolve(here, '../src/mocks/fixtures')
 const MAP = [
   ['fixtures/board.json', 'board.json'],
   ['fixtures/extract_response.json', 'extract_response.json'],
+  ['fixtures/diagnostics_kgmk.json', 'diagnostics_kgmk.json'],
   ['fixtures/diagnostics_nof_vkr.json', 'diagnostics_nof_vkr.json'],
   ['fixtures/diagnostics_nof_med.json', 'diagnostics_nof_med.json'],
   ['fixtures/diagnostics_tof.json', 'diagnostics_tof.json'],

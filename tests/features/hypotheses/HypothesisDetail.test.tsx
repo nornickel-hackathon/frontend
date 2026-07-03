@@ -27,7 +27,7 @@ describe('HypothesisDetail', () => {
     expect(screen.getByText('Trace: цепочка происхождения')).toBeInTheDocument()
     expect(
       screen.getByText(
-        'Уменьшение диаметра песковой насадки гидроциклона смещает границу разделения в тонкую сторону и снижает долю крупных классов в сливе.',
+        'Уменьшение диаметра песковой насадки гидроциклона смещает границу разделения в тонкую сторону: больше крупного материала уходит в пески и возвращается на доизмельчение.',
       ),
     ).toBeInTheDocument()
     expect(screen.getAllByText(/Флотационные методы обогащения/).length).toBeGreaterThanOrEqual(1)
@@ -36,7 +36,7 @@ describe('HypothesisDetail', () => {
     expect(screen.getByText('План эксперимента (DOE)')).toBeInTheDocument()
     expect(
       screen.getByText(
-        'Проверить рост раскрытия закрытых сростков в классах +71/−71+45 после замены насадок.',
+        'Подтвердить рост раскрытия закрытого Pnt/Cp в крупных классах после смены насадок.',
       ),
     ).toBeInTheDocument()
   })

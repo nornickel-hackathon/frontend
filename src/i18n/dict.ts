@@ -202,6 +202,7 @@ export interface Dict {
     reportName: string
     exportJson: string
     exportCsv: string
+    generatedLocally: string
     columns: string[]
   }
   mineralForms: Record<MineralForm, string>

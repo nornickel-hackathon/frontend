@@ -1,6 +1,6 @@
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import type { GraphNode, Hypothesis } from '@/contracts.ts'
-import { api } from '@/api.ts'
+import { api, API_BASE, usingBackend } from '@/api.ts'
 import { useFactory } from '@/app/factory.tsx'
 import { Button } from '@/components/Button/Button.tsx'
 import { Panel } from '@/components/Panel/Panel.tsx'
@@ -9,42 +9,17 @@ import { ErrorState, LoadingState } from '@/components/QueryState/QueryState.tsx
 import { RunPendingState } from '@/components/RunPendingState/RunPendingState.tsx'
 import { StatusBadge } from '@/components/StatusBadge/StatusBadge.tsx'
 import { useT } from '@/i18n/index.tsx'
-import { capexClassOf } from '@/lib/capex.ts'
+import { buildCsv } from '@/lib/csv.ts'
 import { byRank } from '@/lib/domain.ts'
-import { downloadCsv, downloadJson } from '@/lib/download.ts'
+import { downloadBlob, downloadCsv, downloadJson } from '@/lib/download.ts'
 import { formatHypId, formatUsdRange } from '@/lib/format.ts'
 import { safeHref } from '@/lib/url.ts'
 import styles from './ReportExport.module.css'
 
-function csvCell(value: string): string {
-  const guarded = /^[=+\-@\t\r]/.test(value) ? `'${value}` : value
-  return `"${guarded.replace(/"/g, '""')}"`
-}
-
-function buildCsv(columns: string[], hypotheses: Hypothesis[], entities: GraphNode[]): string {
-  const header = columns.join(',')
-  const rows = byRank(hypotheses).map((h) => {
-    const [lo, hi] = h.economic_effect.value_usd_range
-    const cells = [
-      String(h.rank),
-      csvCell(h.id),
-      csvCell(h.title),
-      csvCell(h.status),
-      String(lo),
-      String(hi),
-      String(h.economic_effect.addressable_tons.element_28 ?? 0),
-      String(capexClassOf(h, entities)),
-      String(h.score_total),
-      csvCell(h.expert_match?.expert_hypothesis_id ?? ''),
-    ]
-    return cells.join(',')
-  })
-  return [header, ...rows].join('\n')
-}
-
 export function ReportExport() {
   const t = useT()
   const { factory } = useFactory()
+  const [locallyGenerated, setLocallyGenerated] = useState(false)
   const board = useQuery({ queryKey: ['board', factory], queryFn: () => api.getBoard(factory) })
   const extract = useQuery({ queryKey: ['extract'], queryFn: api.getExtract })
 
@@ -64,12 +39,29 @@ export function ReportExport() {
 
   const handleExportJson = () => {
     downloadJson(`board_${factory}.json`, boardData)
+    setLocallyGenerated(true)
   }
-  const handleExportCsv = () => {
+  const handleExportCsv = async () => {
+    if (usingBackend) {
+      try {
+        const res = await fetch(`${API_BASE}/export/board.csv`, {
+          headers: { Accept: 'text/csv' },
+        })
+        if (!res.ok) {
+          throw new Error(`GET ${API_BASE}/export/board.csv → ${res.status}`)
+        }
+        downloadBlob(`board_${factory}.csv`, await res.blob())
+        setLocallyGenerated(false)
+        return
+      } catch (err) {
+        console.warn('[report] backend csv export failed, generating locally:', err)
+      }
+    }
     downloadCsv(
       `board_${factory}.csv`,
       buildCsv(t.report.columns, boardData.hypotheses, extract.data.entities),
     )
+    setLocallyGenerated(true)
   }
 
   return (
@@ -113,7 +105,16 @@ export function ReportExport() {
           <Button variant="primary" onClick={handleExportJson}>
             {t.report.exportJson}
           </Button>
-          <Button onClick={handleExportCsv}>{t.report.exportCsv}</Button>
+          <Button
+            onClick={() => {
+              void handleExportCsv()
+            }}
+          >
+            {t.report.exportCsv}
+          </Button>
+          {locallyGenerated && (
+            <span className={styles.localBadge}>{t.report.generatedLocally}</span>
+          )}
         </div>
       </div>
     </div>

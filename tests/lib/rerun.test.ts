@@ -65,7 +65,13 @@ describe('applyRerun', () => {
   })
 
   it('preserves the needs_expert_review status of the uncovered hypothesis', () => {
-    const next = applyRerun(board, extract, {
+    const uncovered: BoardResponse = structuredClone(board)
+    const hyp = uncovered.hypotheses.find((h) => h.id === 'hyp_006')
+    expect(hyp).toBeDefined()
+    if (hyp !== undefined) {
+      hyp.status = 'needs_expert_review'
+    }
+    const next = applyRerun(uncovered, extract, {
       kind: 'change_weight',
       payload: { dimension: 'cost', value: 0.2 },
     })

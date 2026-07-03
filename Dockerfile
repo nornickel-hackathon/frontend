@@ -4,12 +4,10 @@ RUN corepack enable && corepack prepare pnpm@11.9.0 --activate
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY . .
-# VITE_API_URL инлайнится в бандл на этапе сборки (Vite build-time env).
-# Пусто → фронт работает от фикстур. Для реального бэка передать:
-#   docker build --build-arg VITE_API_URL=https://api.example.com
-# и не забыть расширить connect-src в nginx.conf под этот origin.
 ARG VITE_API_URL=""
+ARG VITE_API_MODE=""
 ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_API_MODE=$VITE_API_MODE
 RUN pnpm build
 
 FROM nginxinc/nginx-unprivileged:1.27-alpine

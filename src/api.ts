@@ -4,6 +4,7 @@ import type {
   ExpertHypothesis,
   ExtractResponse,
   FactoryId,
+  Hypothesis,
   RerunAction,
 } from './contracts.ts'
 import type { LibraryMock } from '@/mocks/library.ts'
@@ -13,11 +14,13 @@ import {
   assertBoard,
   assertExpertHypotheses,
   assertExtract,
+  assertHypothesis,
   assertLibrary,
 } from '@/lib/validate.ts'
 import boardFixture from '@/mocks/fixtures/board.json'
 import extractFixture from '@/mocks/fixtures/extract_response.json'
 import expertFixture from '@/mocks/fixtures/expert_hypotheses.json'
+import diagnosticsKgmk from '@/mocks/fixtures/diagnostics_kgmk.json'
 import diagnosticsNofVkr from '@/mocks/fixtures/diagnostics_nof_vkr.json'
 import diagnosticsNofMed from '@/mocks/fixtures/diagnostics_nof_med.json'
 import diagnosticsTof from '@/mocks/fixtures/diagnostics_tof.json'
@@ -29,6 +32,7 @@ export interface FactoryBoard {
 
 export interface ApiClient {
   getBoard: (factory: FactoryId) => Promise<BoardResponse | null>
+  getHypothesis: (factory: FactoryId, id: string) => Promise<Hypothesis | null>
   getDiagnostics: (factory: FactoryId) => Promise<DiagnosticsReport>
   getExtract: () => Promise<ExtractResponse>
   getExpertHypotheses: () => Promise<ExpertHypothesis[]>
@@ -37,12 +41,14 @@ export interface ApiClient {
   resetRun: (factory: FactoryId) => Promise<BoardResponse | null>
 }
 
+export const PACK_ID = 'flotation-v1'
+
 const initialBoard = boardFixture as unknown as BoardResponse
 const extract = extractFixture as unknown as ExtractResponse
 const expert = expertFixture as unknown as ExpertHypothesis[]
 
 const DIAGNOSTICS: Record<FactoryId, DiagnosticsReport> = {
-  kgmk: initialBoard.diagnostics,
+  kgmk: diagnosticsKgmk as unknown as DiagnosticsReport,
   nof_vkr: diagnosticsNofVkr as unknown as DiagnosticsReport,
   nof_med: diagnosticsNofMed as unknown as DiagnosticsReport,
   tof: diagnosticsTof as unknown as DiagnosticsReport,
@@ -64,6 +70,11 @@ function createFixtureClient(): ApiClient {
       await delay(100)
       const board = boards[factory]
       return board !== undefined ? structuredClone(board) : null
+    },
+    async getHypothesis(factory, id) {
+      await delay(80)
+      const hyp = boards[factory]?.hypotheses.find((h) => h.id === id)
+      return hyp !== undefined ? structuredClone(hyp) : null
     },
     async getDiagnostics(factory) {
       await delay(80)
@@ -103,6 +114,9 @@ function createFixtureClient(): ApiClient {
 }
 
 const API_URL = import.meta.env.VITE_API_URL
+const API_MODE = import.meta.env.VITE_API_MODE
+
+export const API_BASE = API_URL !== undefined && API_URL.length > 0 ? API_URL : '/api'
 
 async function getJson(url: string): Promise<unknown> {
   const res = await fetch(url, { headers: { Accept: 'application/json' } })
@@ -156,18 +170,27 @@ export function createHttpClient(baseUrl: string): ApiClient {
       const board = assertBoard(await getJson(`${base}/board?run_id=${encodeURIComponent(cached)}`))
       return { run_id: cached, board }
     }
-    const run = assertRun(await postJson(`${base}/run`, { factory }))
+    const run = assertRun(await postJson(`${base}/run`, { factory_id: factory, pack_id: PACK_ID }))
     runIds.set(factory, run.run_id)
     return run
   }
 
-  return {
+  const client: ApiClient = {
     async getBoard(factory) {
       try {
         return (await ensureRun(factory)).board
       } catch (err) {
         warnFallback('getBoard', err)
         return fallback.getBoard(factory)
+      }
+    },
+    async getHypothesis(factory, id) {
+      try {
+        return assertHypothesis(await getJson(`${base}/hypothesis/${encodeURIComponent(id)}`))
+      } catch (err) {
+        warnFallback('getHypothesis', err)
+        const board = await client.getBoard(factory)
+        return board?.hypotheses.find((h) => h.id === id) ?? null
       }
     },
     async getDiagnostics(factory) {
@@ -221,10 +244,11 @@ export function createHttpClient(baseUrl: string): ApiClient {
       }
     },
   }
+
+  return client
 }
 
-export const usingBackend = typeof API_URL === 'string' && API_URL.length > 0
+export const usingBackend =
+  API_MODE === 'msw' || API_MODE === 'http' || (typeof API_URL === 'string' && API_URL.length > 0)
 
-export const api: ApiClient = usingBackend
-  ? createHttpClient(API_URL as string)
-  : createFixtureClient()
+export const api: ApiClient = usingBackend ? createHttpClient(API_BASE) : createFixtureClient()

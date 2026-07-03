@@ -15,23 +15,33 @@ import { RunProvider } from '@/app/run.tsx'
 import { createQueryClient } from '@/app/queryClient.ts'
 import { createRouter } from '@/app/router.tsx'
 
-const queryClient = createQueryClient()
-const router = createRouter()
-
-const rootElement = document.getElementById('root')
-
-if (rootElement !== null) {
-  createRoot(rootElement).render(
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <LocaleProvider>
-          <FactoryProvider>
-            <RunProvider>
-              <RouterProvider router={router} />
-            </RunProvider>
-          </FactoryProvider>
-        </LocaleProvider>
-      </QueryClientProvider>
-    </StrictMode>,
-  )
+async function prepareMocks(): Promise<void> {
+  if (import.meta.env.DEV && import.meta.env.VITE_API_MODE === 'msw') {
+    const { worker } = await import('@/mocks/browser.ts')
+    await worker.start({ onUnhandledRequest: 'bypass' })
+  }
 }
+
+function renderApp(): void {
+  const queryClient = createQueryClient()
+  const router = createRouter()
+  const rootElement = document.getElementById('root')
+
+  if (rootElement !== null) {
+    createRoot(rootElement).render(
+      <StrictMode>
+        <QueryClientProvider client={queryClient}>
+          <LocaleProvider>
+            <FactoryProvider>
+              <RunProvider>
+                <RouterProvider router={router} />
+              </RunProvider>
+            </FactoryProvider>
+          </LocaleProvider>
+        </QueryClientProvider>
+      </StrictMode>,
+    )
+  }
+}
+
+void prepareMocks().then(renderApp)

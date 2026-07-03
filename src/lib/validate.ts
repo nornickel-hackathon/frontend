@@ -3,6 +3,7 @@ import type {
   DiagnosticsReport,
   ExpertHypothesis,
   ExtractResponse,
+  Hypothesis,
 } from '@/contracts.ts'
 import type { LibraryMock } from '@/mocks/library.ts'
 
@@ -45,6 +46,20 @@ export function assertDiagnostics(v: unknown): DiagnosticsReport {
     throw new ContractError('DiagnosticsReport')
   }
   return v as unknown as DiagnosticsReport
+}
+
+export function assertHypothesis(v: unknown): Hypothesis {
+  if (
+    !isObject(v) ||
+    typeof v['id'] !== 'string' ||
+    typeof v['title'] !== 'string' ||
+    !isObject(v['score_breakdown']) ||
+    !isObject(v['economic_effect']) ||
+    !hasArray(v, 'trace')
+  ) {
+    throw new ContractError('Hypothesis')
+  }
+  return v as unknown as Hypothesis
 }
 
 export function assertExtract(v: unknown): ExtractResponse {

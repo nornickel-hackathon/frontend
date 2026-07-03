@@ -208,6 +208,7 @@ export const ru: Dict = {
     reportName: 'Отчёт: портфель гипотез',
     exportJson: 'Экспорт JSON',
     exportCsv: 'Экспорт CSV',
+    generatedLocally: 'Сгенерировано локально',
     columns: [
       'rank',
       'id',

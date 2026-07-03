@@ -208,6 +208,7 @@ export const en: Dict = {
     reportName: 'Report: hypothesis portfolio',
     exportJson: 'Export JSON',
     exportCsv: 'Export CSV',
+    generatedLocally: 'Generated locally',
     columns: [
       'rank',
       'id',

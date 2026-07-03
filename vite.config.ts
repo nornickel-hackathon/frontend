@@ -22,6 +22,12 @@ export default defineConfig(({ mode }) => ({
     },
   },
   server: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8080',
+        rewrite: (p) => p.replace(/^\/api/, ''),
+      },
+    },
     watch: {
       usePolling: process.env['VITE_USE_POLLING'] === 'true',
       interval: 300,

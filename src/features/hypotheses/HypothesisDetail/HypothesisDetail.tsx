@@ -21,22 +21,21 @@ export function HypothesisDetail() {
   const { id } = useParams()
   const board = useQuery({ queryKey: ['board', factory], queryFn: () => api.getBoard(factory) })
   const extract = useQuery({ queryKey: ['extract'], queryFn: api.getExtract })
-  const diagnostics = useQuery({
-    queryKey: ['diagnostics', factory],
-    queryFn: () => api.getDiagnostics(factory),
+  const hypothesisQuery = useQuery({
+    queryKey: ['hypothesis', factory, id],
+    queryFn: () => api.getHypothesis(factory, id ?? ''),
   })
 
-  if (board.isPending || extract.isPending || diagnostics.isPending) {
+  if (board.isPending || extract.isPending || hypothesisQuery.isPending) {
     return <LoadingState />
   }
-  if (board.isError || extract.isError || diagnostics.isError) {
-    return <ErrorState onRetry={() => refetchAll([board, extract, diagnostics])} />
+  if (board.isError || extract.isError || hypothesisQuery.isError) {
+    return <ErrorState onRetry={() => refetchAll([board, extract, hypothesisQuery])} />
   }
 
-  const hypothesis =
-    board.data === null ? undefined : board.data.hypotheses.find((h) => h.id === id)
+  const hypothesis = hypothesisQuery.data
 
-  if (board.data === null || hypothesis === undefined) {
+  if (board.data === null || hypothesis === null) {
     return (
       <div className={styles.notFound}>
         {t.detail.notFound}
@@ -45,7 +44,7 @@ export function HypothesisDetail() {
     )
   }
 
-  const traceSteps = resolveTrace(hypothesis, extract.data, diagnostics.data)
+  const traceSteps = resolveTrace(hypothesis, extract.data, board.data.diagnostics)
   const economic = hypothesis.economic_effect
   const doe = hypothesis.doe_plan
   const element28 = economic.addressable_tons.element_28 ?? 0

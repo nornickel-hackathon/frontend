@@ -13,9 +13,9 @@ describe('ForceGraph', () => {
     )
     const canvas = screen.getByRole('img', { name: 'Knowledge graph' })
     expect(canvas).toBeInTheDocument()
-    expect(screen.getByText('время агитации')).toBeInTheDocument()
-    expect(screen.getByText('магнитная сепарация')).toBeInTheDocument()
-    expect(screen.getByText('извлекаемые потери element_28')).toBeInTheDocument()
+    expect(screen.getByText('время агитации в контактных чанах')).toBeInTheDocument()
+    expect(screen.getByText('магнитная сепарация пирротиновой фракции')).toBeInTheDocument()
+    expect(screen.getByText('извлекаемые потери element_28 с хвостами')).toBeInTheDocument()
     expect(canvas.querySelectorAll('line')).toHaveLength(extract.edges.length)
   })
 

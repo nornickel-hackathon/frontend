@@ -13,16 +13,14 @@ describe('HypothesisBoard', () => {
   it('renders fixture hypotheses with real titles', async () => {
     renderWithProviders(<HypothesisBoard />)
     expect(
-      await screen.findByText('Заменить песковые насадки гидроциклонов 12″ → 8″'),
+      await screen.findByText('Заменить песковые насадки гидроциклонов 12" → 8"'),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Изменить геометрию футеровки шаровых мельниц')).toBeInTheDocument()
+    expect(
+      screen.getByText('Магнитная сепарация надцелевого класса с доизмельчением в отдельном цикле'),
     ).toBeInTheDocument()
     expect(
-      screen.getByText('Доизмельчение крупных классов: футеровка и шаровая загрузка мельниц'),
-    ).toBeInTheDocument()
-    expect(
-      screen.getByText('Магнитная сепарация пирротиновой фракции (новое оборудование)'),
-    ).toBeInTheDocument()
-    expect(
-      screen.getByText('Замена реагента-собирателя на селективный к Pnt/Cp'),
+      screen.getByText('Снизить переизмельчение: контроль гранулометрии и стабилизация помола'),
     ).toBeInTheDocument()
   })
 
@@ -30,7 +28,6 @@ describe('HypothesisBoard', () => {
     renderWithProviders(<HypothesisBoard />)
     expect((await screen.findAllByText('recommended')).length).toBeGreaterThanOrEqual(1)
     expect(screen.getAllByText('watch').length).toBeGreaterThanOrEqual(1)
-    expect(screen.getByText('needs_expert_review')).toBeInTheDocument()
   })
 
   it('recomputes the board when a factor is excluded', async () => {
