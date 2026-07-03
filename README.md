@@ -27,7 +27,10 @@ UI независимо от Rust-движка и Python-агента.
 Требуется Node 22 и pnpm 11 (`corepack enable`).
 
 > **Тесты — только на Node 22** (закреплено в `engines`). На Node 23+ встроенный
-> `localStorage` ломает jsdom — 89 ложных падений тестов.
+> `localStorage` ломает jsdom — ложные падения всех тестов
+> (`localStorage.clear is not a function`). Обход, если Node 22 нет под рукой:
+> `NODE_OPTIONS=--no-experimental-webstorage pnpm test` — проверено на Node 25,
+> 96/96 зелёные.
 
 ```bash
 pnpm install
