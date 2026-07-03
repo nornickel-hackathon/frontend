@@ -1,8 +1,8 @@
 import type {
   Diagnosis,
   Element,
-  FactoryId,
   HypothesisStatus,
+  KnownFactoryId,
   LeverType,
   MineralForm,
   ScoreDimension,
@@ -108,7 +108,7 @@ export interface Dict {
   }
   factory: {
     label: string
-    names: Record<FactoryId, string>
+    names: Record<KnownFactoryId, string>
     switchAria: string
   }
   diagnosis: {
@@ -142,6 +142,11 @@ export interface Dict {
     costWeight: string
     price: string
     priceElement: string
+    textConstraint: string
+    textConstraintPlaceholder: string
+    applyTextConstraint: string
+    parsedActions: string
+    unparsedConstraint: string
     apply: string
     reset: string
     recomputed: string

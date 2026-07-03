@@ -129,6 +129,7 @@ export function HypothesisBoard() {
         contract={boardData.kpi_contract}
         pending={pending}
         onApply={(actions) => rerunMutation.mutate(actions)}
+        onParseText={(text) => api.parseConstraints(factory, text)}
         onReset={() => resetMutation.mutate()}
       />
 

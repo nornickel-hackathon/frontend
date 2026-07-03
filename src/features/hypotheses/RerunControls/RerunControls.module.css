@@ -146,6 +146,45 @@
   margin-left: auto;
 }
 
+.textRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+.textControl {
+  display: flex;
+  flex: 1;
+  min-width: 240px;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 44px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2);
+  font: inherit;
+  font-size: var(--text-sm);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.parseResult {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
 @media (max-width: 640px) {
   .controls {
     padding: var(--space-4);
@@ -171,5 +210,14 @@
 
   .actions > * {
     flex: 1;
+  }
+
+  .textRow {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .textControl {
+    min-width: 0;
   }
 }

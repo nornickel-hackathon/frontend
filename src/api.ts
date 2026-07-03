@@ -5,6 +5,8 @@ import type {
   ExtractResponse,
   FactoryId,
   Hypothesis,
+  KnownFactoryId,
+  ParseConstraintsResponse,
   RerunAction,
 } from './contracts.ts'
 import type { LibraryMock } from '@/mocks/library.ts'
@@ -37,6 +39,7 @@ export interface ApiClient {
   getExtract: () => Promise<ExtractResponse>
   getExpertHypotheses: () => Promise<ExpertHypothesis[]>
   getLibrary: () => Promise<LibraryMock>
+  parseConstraints: (factory: FactoryId, text: string) => Promise<ParseConstraintsResponse>
   rerun: (factory: FactoryId, action: RerunAction) => Promise<BoardResponse | null>
   resetRun: (factory: FactoryId) => Promise<BoardResponse | null>
 }
@@ -47,11 +50,15 @@ const initialBoard = boardFixture as unknown as BoardResponse
 const extract = extractFixture as unknown as ExtractResponse
 const expert = expertFixture as unknown as ExpertHypothesis[]
 
-const DIAGNOSTICS: Record<FactoryId, DiagnosticsReport> = {
+const DIAGNOSTICS: Record<KnownFactoryId, DiagnosticsReport> = {
   kgmk: diagnosticsKgmk as unknown as DiagnosticsReport,
   nof_vkr: diagnosticsNofVkr as unknown as DiagnosticsReport,
   nof_med: diagnosticsNofMed as unknown as DiagnosticsReport,
   tof: diagnosticsTof as unknown as DiagnosticsReport,
+}
+
+function diagnosticsFor(factory: FactoryId): DiagnosticsReport {
+  return DIAGNOSTICS[factory as KnownFactoryId] ?? DIAGNOSTICS.kgmk
 }
 
 const LATENCY_SCALE = import.meta.env.MODE === 'test' ? 0 : 1
@@ -78,7 +85,7 @@ function createFixtureClient(): ApiClient {
     },
     async getDiagnostics(factory) {
       await delay(80)
-      return structuredClone(DIAGNOSTICS[factory])
+      return structuredClone(diagnosticsFor(factory))
     },
     async getExtract() {
       await delay(60)
@@ -91,6 +98,11 @@ function createFixtureClient(): ApiClient {
     async getLibrary() {
       await delay(80)
       return structuredClone(libraryMock)
+    },
+    async parseConstraints(factory, text) {
+      await delay(120)
+      const board = boards[factory] ?? boards.kgmk
+      return parseConstraintsFixture(text, board ?? initialBoard, extract)
     },
     async rerun(factory, action) {
       await delay(200)
@@ -159,6 +171,87 @@ function assertRun(v: unknown): RunResponse {
   return { run_id: run['run_id'] as string, board: assertBoard(run['board']) }
 }
 
+function assertParseConstraints(v: unknown): ParseConstraintsResponse {
+  if (typeof v !== 'object' || v === null || !Array.isArray((v as { actions?: unknown }).actions)) {
+    throw new Error('contract validation failed: ParseConstraintsResponse')
+  }
+  const parsed = v as { actions: unknown[]; unparsed?: unknown[]; kpi_contract_patch?: unknown }
+  return {
+    actions: parsed.actions as RerunAction[],
+    kpi_contract_patch:
+      typeof parsed.kpi_contract_patch === 'object' && parsed.kpi_contract_patch !== null
+        ? (parsed.kpi_contract_patch as Record<string, unknown>)
+        : {},
+    unparsed: Array.isArray(parsed.unparsed) ? parsed.unparsed.map(String) : [],
+  }
+}
+
+function normalizeText(text: string): string {
+  return text.toLowerCase().replaceAll('ё', 'е').replace(/\s+/g, ' ').trim()
+}
+
+function parseElement(text: string): 'element_28' | 'element_29' | null {
+  if (/\b28\b|элемент\s*28|никел|nickel|\bni\b/.test(text)) return 'element_28'
+  if (/\b29\b|элемент\s*29|мед|copper|\bcu\b/.test(text)) return 'element_29'
+  return null
+}
+
+function parseNumber(text: string): number | null {
+  const matches = [...text.matchAll(/\d[\d _]*/g)]
+  if (matches.length === 0) return null
+  const raw = (matches.at(-1)?.[0] ?? '').replace(/[^\d]/g, '')
+  return raw.length > 0 ? Number(raw) : null
+}
+
+function parseConstraintsFixture(
+  text: string,
+  board: BoardResponse,
+  extractResponse: ExtractResponse,
+): ParseConstraintsResponse {
+  const normalized = normalizeText(text)
+  const actions: RerunAction[] = []
+  const unparsed: string[] = []
+  const element = parseElement(normalized)
+  if ((normalized.includes('цен') || normalized.includes('вдвое')) && element !== null) {
+    const usd_per_t = normalized.includes('вдвое')
+      ? board.kpi_contract.prices_usd_per_t[element] * 2
+      : parseNumber(normalized)
+    if (usd_per_t !== null) {
+      actions.push({ kind: 'change_price', payload: { element, usd_per_t } })
+    }
+  }
+  if (
+    normalized.includes('без капзатрат') ||
+    normalized.includes('капзатраты запрещ') ||
+    normalized.includes('капекс запрещ') ||
+    normalized.includes('без capex') ||
+    normalized.includes('только настройки')
+  ) {
+    actions.push({
+      kind: 'add_constraint',
+      payload: { metric: 'capex_class', op: '<=', value: 1 },
+    })
+  }
+  for (const match of normalized.matchAll(
+    /(?:исключи|исключить|не использовать|без)\s+([^,.]+)/g,
+  )) {
+    const term = (match[1] ?? '').trim()
+    if (term.includes('кап') || term.includes('capex')) continue
+    const factor = extractResponse.entities
+      .filter((n) => n.tags.includes('controllable'))
+      .find((n) => normalizeText(`${n.id} ${n.label}`).includes(term))
+    if (factor === undefined) {
+      unparsed.push(term)
+    } else {
+      actions.push({ kind: 'exclude_factor', payload: { factor_id: factor.id } })
+    }
+  }
+  if (actions.length === 0 && unparsed.length === 0 && text.trim().length > 0) {
+    unparsed.push(text.trim())
+  }
+  return { actions, kpi_contract_patch: {}, unparsed }
+}
+
 export function createHttpClient(baseUrl: string): ApiClient {
   const base = baseUrl.replace(/\/$/, '')
   const runIds = new Map<FactoryId, string>()
@@ -223,6 +316,17 @@ export function createHttpClient(baseUrl: string): ApiClient {
       } catch (err) {
         warnFallback('getLibrary', err)
         return fallback.getLibrary()
+      }
+    },
+    async parseConstraints(factory, text) {
+      try {
+        const runId = runIds.get(factory) ?? (await ensureRun(factory)).run_id
+        return assertParseConstraints(
+          await postJson(`${base}/constraints/parse`, { run_id: runId, text }),
+        )
+      } catch (err) {
+        warnFallback('parseConstraints', err)
+        return fallback.parseConstraints(factory, text)
       }
     },
     async rerun(factory, action) {

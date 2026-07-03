@@ -2,7 +2,7 @@ import type {
   DiagnosticsReport,
   Diagnosis,
   Element,
-  FactoryId,
+  KnownFactoryId,
   Hypothesis,
   LossCell,
   MineralForm,
@@ -21,8 +21,8 @@ export function toElement(value: string): Element {
   return value === 'element_29' ? 'element_29' : 'element_28'
 }
 
-export function toFactoryId(value: string): FactoryId {
-  return (FACTORY_ORDER as string[]).includes(value) ? (value as FactoryId) : 'kgmk'
+export function toFactoryId(value: string): KnownFactoryId {
+  return (FACTORY_ORDER as string[]).includes(value) ? (value as KnownFactoryId) : 'kgmk'
 }
 
 export const SIZE_CLASS_ORDER: string[] = [
@@ -51,9 +51,9 @@ export const DIAGNOSIS_ORDER: Diagnosis[] = [
   'not_recoverable',
 ]
 
-export const FACTORY_ORDER: FactoryId[] = ['kgmk', 'nof_vkr', 'nof_med', 'tof']
+export const FACTORY_ORDER: KnownFactoryId[] = ['kgmk', 'nof_vkr', 'nof_med', 'tof']
 
-export const FACTORY_REPORT_FILE: Record<FactoryId, string> = {
+export const FACTORY_REPORT_FILE: Record<KnownFactoryId, string> = {
   kgmk: 'Хвосты КГМК.xlsx',
   nof_vkr: 'Хвосты НОФ вкрапленная.xlsx',
   nof_med: 'Хвосты НОФ медистая.xlsx',

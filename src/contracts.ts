@@ -1,6 +1,8 @@
 export type Element = 'element_28' | 'element_29'
 
-export type FactoryId = 'kgmk' | 'nof_vkr' | 'nof_med' | 'tof'
+export type KnownFactoryId = 'kgmk' | 'nof_vkr' | 'nof_med' | 'tof'
+
+export type FactoryId = string
 
 export type TailsSection = 'rock' | 'pyrrhotite'
 
@@ -240,4 +242,10 @@ export interface RerunPayload {
 export interface RerunAction {
   kind: RerunActionKind
   payload: RerunPayload
+}
+
+export interface ParseConstraintsResponse {
+  actions: RerunAction[]
+  kpi_contract_patch?: Record<string, unknown>
+  unparsed: string[]
 }

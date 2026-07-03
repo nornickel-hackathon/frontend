@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import type { CSSProperties } from 'react'
-import type { Element, ExtractResponse, KpiContract, RerunAction } from '@/contracts.ts'
+import type {
+  Element,
+  ExtractResponse,
+  KpiContract,
+  ParseConstraintsResponse,
+  RerunAction,
+} from '@/contracts.ts'
 import { Button } from '@/components/Button/Button.tsx'
 import { Select } from '@/components/Select/Select.tsx'
 import type { SelectOption } from '@/components/Select/Select.tsx'
@@ -14,6 +20,7 @@ interface RerunControlsProps {
   contract: KpiContract
   pending: boolean
   onApply: (actions: RerunAction[]) => void
+  onParseText: (text: string) => Promise<ParseConstraintsResponse>
   onReset: () => void
 }
 
@@ -22,6 +29,7 @@ export function RerunControls({
   contract,
   pending,
   onApply,
+  onParseText,
   onReset,
 }: RerunControlsProps) {
   const t = useT()
@@ -33,6 +41,9 @@ export function RerunControls({
   const [costWeight, setCostWeight] = useState(currentCostWeight)
   const [element, setElement] = useState<Element>('element_28')
   const [price, setPrice] = useState(contract.prices_usd_per_t.element_28)
+  const [textConstraint, setTextConstraint] = useState('')
+  const [parseResult, setParseResult] = useState<ParseConstraintsResponse | null>(null)
+  const [parseError, setParseError] = useState('')
 
   const currentPrice = contract.prices_usd_per_t[element]
 
@@ -67,6 +78,25 @@ export function RerunControls({
       onApply(actions)
       setFactorId('')
     }
+  }
+
+  const handleTextApply = () => {
+    const text = textConstraint.trim()
+    if (text.length === 0) {
+      return
+    }
+    setParseError('')
+    void onParseText(text)
+      .then((result) => {
+        setParseResult(result)
+        if (result.actions.length > 0) {
+          onApply(result.actions)
+        }
+      })
+      .catch((err: unknown) => {
+        setParseResult(null)
+        setParseError(err instanceof Error ? err.message : String(err))
+      })
   }
 
   return (
@@ -137,6 +167,36 @@ export function RerunControls({
           </Button>
         </div>
       </div>
+      <div className={styles.textRow}>
+        <label className={styles.textControl}>
+          <span className={styles.label}>{t.board.textConstraint}</span>
+          <textarea
+            className={styles.textarea}
+            value={textConstraint}
+            rows={2}
+            placeholder={t.board.textConstraintPlaceholder}
+            onChange={(e) => setTextConstraint(e.target.value)}
+          />
+        </label>
+        <Button variant="secondary" onClick={handleTextApply} disabled={pending}>
+          {t.board.applyTextConstraint}
+        </Button>
+      </div>
+      {(parseResult !== null || parseError.length > 0) && (
+        <div className={styles.parseResult}>
+          {parseResult !== null && parseResult.actions.length > 0 && (
+            <span>
+              {t.board.parsedActions}: {parseResult.actions.map((a) => a.kind).join(', ')}
+            </span>
+          )}
+          {parseResult !== null && parseResult.unparsed.length > 0 && (
+            <span>
+              {t.board.unparsedConstraint}: {parseResult.unparsed.join(', ')}
+            </span>
+          )}
+          {parseError.length > 0 && <span>{parseError}</span>}
+        </div>
+      )}
     </div>
   )
 }
