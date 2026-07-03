@@ -1,0 +1,230 @@
+import type {
+  BoardResponse,
+  DiagnosticsReport,
+  ExpertHypothesis,
+  ExtractResponse,
+  FactoryId,
+  RerunAction,
+} from './contracts.ts'
+import type { LibraryMock } from '@/mocks/library.ts'
+import { libraryMock } from '@/mocks/library.ts'
+import { applyRerun } from '@/lib/rerun.ts'
+import {
+  assertBoard,
+  assertExpertHypotheses,
+  assertExtract,
+  assertLibrary,
+} from '@/lib/validate.ts'
+import boardFixture from '@/mocks/fixtures/board.json'
+import extractFixture from '@/mocks/fixtures/extract_response.json'
+import expertFixture from '@/mocks/fixtures/expert_hypotheses.json'
+import diagnosticsNofVkr from '@/mocks/fixtures/diagnostics_nof_vkr.json'
+import diagnosticsNofMed from '@/mocks/fixtures/diagnostics_nof_med.json'
+import diagnosticsTof from '@/mocks/fixtures/diagnostics_tof.json'
+
+export interface FactoryBoard {
+  diagnostics: DiagnosticsReport
+  board: BoardResponse | null
+}
+
+export interface ApiClient {
+  getBoard: (factory: FactoryId) => Promise<BoardResponse | null>
+  getDiagnostics: (factory: FactoryId) => Promise<DiagnosticsReport>
+  getExtract: () => Promise<ExtractResponse>
+  getExpertHypotheses: () => Promise<ExpertHypothesis[]>
+  getLibrary: () => Promise<LibraryMock>
+  rerun: (factory: FactoryId, action: RerunAction) => Promise<BoardResponse | null>
+  resetRun: (factory: FactoryId) => Promise<BoardResponse | null>
+}
+
+const initialBoard = boardFixture as unknown as BoardResponse
+const extract = extractFixture as unknown as ExtractResponse
+const expert = expertFixture as unknown as ExpertHypothesis[]
+
+const DIAGNOSTICS: Record<FactoryId, DiagnosticsReport> = {
+  kgmk: initialBoard.diagnostics,
+  nof_vkr: diagnosticsNofVkr as unknown as DiagnosticsReport,
+  nof_med: diagnosticsNofMed as unknown as DiagnosticsReport,
+  tof: diagnosticsTof as unknown as DiagnosticsReport,
+}
+
+const LATENCY_SCALE = import.meta.env.MODE === 'test' ? 0 : 1
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms * LATENCY_SCALE))
+}
+
+function createFixtureClient(): ApiClient {
+  const boards: Partial<Record<FactoryId, BoardResponse>> = {
+    kgmk: structuredClone(initialBoard),
+  }
+
+  return {
+    async getBoard(factory) {
+      await delay(100)
+      const board = boards[factory]
+      return board !== undefined ? structuredClone(board) : null
+    },
+    async getDiagnostics(factory) {
+      await delay(80)
+      return structuredClone(DIAGNOSTICS[factory])
+    },
+    async getExtract() {
+      await delay(60)
+      return structuredClone(extract)
+    },
+    async getExpertHypotheses() {
+      await delay(60)
+      return structuredClone(expert)
+    },
+    async getLibrary() {
+      await delay(80)
+      return structuredClone(libraryMock)
+    },
+    async rerun(factory, action) {
+      await delay(200)
+      const board = boards[factory]
+      if (board === undefined) {
+        return null
+      }
+      boards[factory] = applyRerun(board, extract, action)
+      return structuredClone(boards[factory] as BoardResponse)
+    },
+    async resetRun(factory) {
+      await delay(120)
+      if (factory === 'kgmk') {
+        boards.kgmk = structuredClone(initialBoard)
+        return structuredClone(boards.kgmk)
+      }
+      const board = boards[factory]
+      return board !== undefined ? structuredClone(board) : null
+    },
+  }
+}
+
+const API_URL = import.meta.env.VITE_API_URL
+
+async function getJson(url: string): Promise<unknown> {
+  const res = await fetch(url, { headers: { Accept: 'application/json' } })
+  if (!res.ok) {
+    throw new Error(`GET ${url} → ${res.status}`)
+  }
+  return await res.json()
+}
+
+async function postJson(url: string, body: unknown): Promise<unknown> {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify(body),
+  })
+  if (!res.ok) {
+    throw new Error(`POST ${url} → ${res.status}`)
+  }
+  return await res.json()
+}
+
+function warnFallback(op: string, err: unknown): void {
+  console.warn(`[api] backend "${op}" failed, using fixture data:`, err)
+}
+
+interface RunResponse {
+  run_id: string
+  board: BoardResponse
+}
+
+function assertRun(v: unknown): RunResponse {
+  if (
+    typeof v !== 'object' ||
+    v === null ||
+    typeof (v as Record<string, unknown>)['run_id'] !== 'string'
+  ) {
+    throw new Error('contract validation failed: RunResponse')
+  }
+  const run = v as Record<string, unknown>
+  return { run_id: run['run_id'] as string, board: assertBoard(run['board']) }
+}
+
+export function createHttpClient(baseUrl: string): ApiClient {
+  const base = baseUrl.replace(/\/$/, '')
+  const runIds = new Map<FactoryId, string>()
+  const fallback = createFixtureClient()
+
+  async function ensureRun(factory: FactoryId): Promise<RunResponse> {
+    const cached = runIds.get(factory)
+    if (cached !== undefined) {
+      const board = assertBoard(await getJson(`${base}/board?run_id=${encodeURIComponent(cached)}`))
+      return { run_id: cached, board }
+    }
+    const run = assertRun(await postJson(`${base}/run`, { factory }))
+    runIds.set(factory, run.run_id)
+    return run
+  }
+
+  return {
+    async getBoard(factory) {
+      try {
+        return (await ensureRun(factory)).board
+      } catch (err) {
+        warnFallback('getBoard', err)
+        return fallback.getBoard(factory)
+      }
+    },
+    async getDiagnostics(factory) {
+      try {
+        return (await ensureRun(factory)).board.diagnostics
+      } catch (err) {
+        warnFallback('getDiagnostics', err)
+        return fallback.getDiagnostics(factory)
+      }
+    },
+    async getExtract() {
+      try {
+        return assertExtract(await getJson(`${base}/extract`))
+      } catch (err) {
+        warnFallback('getExtract', err)
+        return fallback.getExtract()
+      }
+    },
+    async getExpertHypotheses() {
+      try {
+        return assertExpertHypotheses(await getJson(`${base}/expert_hypotheses`))
+      } catch (err) {
+        warnFallback('getExpertHypotheses', err)
+        return fallback.getExpertHypotheses()
+      }
+    },
+    async getLibrary() {
+      try {
+        return assertLibrary(await getJson(`${base}/library`))
+      } catch (err) {
+        warnFallback('getLibrary', err)
+        return fallback.getLibrary()
+      }
+    },
+    async rerun(factory, action) {
+      try {
+        const runId = runIds.get(factory) ?? (await ensureRun(factory)).run_id
+        return assertBoard(await postJson(`${base}/rerun`, { run_id: runId, action }))
+      } catch (err) {
+        warnFallback('rerun', err)
+        return fallback.rerun(factory, action)
+      }
+    },
+    async resetRun(factory) {
+      runIds.delete(factory)
+      try {
+        return (await ensureRun(factory)).board
+      } catch (err) {
+        warnFallback('resetRun', err)
+        return fallback.resetRun(factory)
+      }
+    },
+  }
+}
+
+export const usingBackend = typeof API_URL === 'string' && API_URL.length > 0
+
+export const api: ApiClient = usingBackend
+  ? createHttpClient(API_URL as string)
+  : createFixtureClient()

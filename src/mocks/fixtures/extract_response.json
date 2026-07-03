@@ -1,0 +1,210 @@
+{
+  "pack_id": "flotation-v1",
+  "documents": [
+    {
+      "id": "doc_flotation_methods",
+      "title": "Флотационные методы обогащения",
+      "path": "norn-hack/Дополнительные материалы/geokniga-flotacionnye-metody-obogashcheniya_0.pdf",
+      "source_url": null
+    },
+    {
+      "id": "doc_grinding_classification",
+      "title": "Измельчение и классификация руд",
+      "path": "norn-hack/Дополнительные материалы/izmelchenie-i-klassifikaciya.pdf",
+      "source_url": null
+    },
+    {
+      "id": "doc_tails_manual",
+      "title": "Как читать отчёт института по хвостам",
+      "path": "norn-hack/Дополнительные материалы/Как читать отчет института по хвостам.docx",
+      "source_url": null
+    },
+    {
+      "id": "doc_mdpi_fines",
+      "title": "Recovery of fine pentlandite particles by flotation",
+      "path": "docs/sample_docs/open/mdpi_pentlandite_fines_2023.pdf",
+      "source_url": "https://www.mdpi.com/2075-163X/13/2/0000"
+    },
+    {
+      "id": "doc_mdpi_liberation",
+      "title": "Grinding and liberation of Cu-Ni sulphide ores: a review",
+      "path": "docs/sample_docs/open/mdpi_liberation_2022.pdf",
+      "source_url": "https://www.mdpi.com/2075-163X/12/8/0000"
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim_001",
+      "text": "Уменьшение диаметра песковой насадки гидроциклона смещает границу разделения в тонкую сторону и снижает долю крупных классов в сливе.",
+      "source_ref": "doc_flotation_methods",
+      "source_page": 212,
+      "confidence": 0.85,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_002",
+      "text": "Тип футеровки и шаровая загрузка мельницы определяют тонину помола и полноту раскрытия сростков.",
+      "source_ref": "doc_grinding_classification",
+      "source_page": 148,
+      "confidence": 0.82,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_003",
+      "text": "Возврат крупных классов на доизмельчение повышает раскрытие закрытых зёрен пентландита и халькопирита на 4–12%.",
+      "source_ref": "doc_grinding_classification",
+      "source_page": 152,
+      "confidence": 0.8,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_004",
+      "text": "Закрытые зёрна Pnt/Cp в крупных классах извлекаемы только после доизмельчения до раскрытия минерала.",
+      "source_ref": "doc_tails_manual",
+      "source_page": null,
+      "confidence": 0.9,
+      "evidence_type": "expert_note"
+    },
+    {
+      "id": "claim_007",
+      "text": "Улучшение классификации даёт прирост раскрытия и извлечения целевых сульфидов в диапазоне 5–15%.",
+      "source_ref": "doc_flotation_methods",
+      "source_page": 176,
+      "confidence": 0.83,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_008",
+      "text": "Раскрытые тонкие частицы пентландита в классе −10 мкм теряются со шламами из-за низкой вероятности закрепления на пузырьке.",
+      "source_ref": "doc_mdpi_fines",
+      "source_page": 5,
+      "confidence": 0.81,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_010",
+      "text": "Увеличение времени агитации повышает вероятность флотации медленно флотируемых раскрытых зёрен в средних классах.",
+      "source_ref": "doc_flotation_methods",
+      "source_page": 231,
+      "confidence": 0.78,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_011",
+      "text": "Корректировка плотности пульпы во фронте флотации повышает извлечение раскрытого Pnt/Cp на 3–9% без роста расхода реагентов.",
+      "source_ref": "doc_flotation_methods",
+      "source_page": 244,
+      "confidence": 0.76,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_012",
+      "text": "Стабилизация гранулометрии слива классификатора снижает переизмельчение и потери раскрытого минерала в классе −10.",
+      "source_ref": "doc_grinding_classification",
+      "source_page": 190,
+      "confidence": 0.74,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_013",
+      "text": "Переизмельчение приводит к росту доли шламов, которые ухудшают селективность флотации.",
+      "source_ref": "doc_grinding_classification",
+      "source_page": 194,
+      "confidence": 0.8,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_015",
+      "text": "Магнитная сепарация позволяет вывести часть железосодержащей пирротиновой фракции, недоступной флотационным рычагам.",
+      "source_ref": "doc_flotation_methods",
+      "source_page": 268,
+      "confidence": 0.7,
+      "evidence_type": "inferred"
+    },
+    {
+      "id": "claim_016",
+      "text": "Раскрытие сростков в крупных классах — ключевой резерв извлечения для сульфидных Cu-Ni руд.",
+      "source_ref": "doc_mdpi_liberation",
+      "source_page": 11,
+      "confidence": 0.84,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_017",
+      "text": "Силикатная и валлериитовая формы металла не извлекаются сульфидной флотацией и должны отсекаться из потенциала извлечения.",
+      "source_ref": "doc_tails_manual",
+      "source_page": null,
+      "confidence": 0.88,
+      "evidence_type": "expert_note"
+    },
+    {
+      "id": "claim_018",
+      "text": "Селективный собиратель может повысить извлечение целевых минералов, однако количественный эффект на KPI в источниках не приведён.",
+      "source_ref": "doc_flotation_methods",
+      "source_page": 258,
+      "confidence": 0.55,
+      "evidence_type": "inferred"
+    },
+    {
+      "id": "claim_019",
+      "text": "Данные о влиянии реагентного режима на извлечение element_29 в отчёте по хвостам отсутствуют.",
+      "source_ref": "doc_tails_manual",
+      "source_page": null,
+      "confidence": 0.6,
+      "evidence_type": "data_gap"
+    },
+    {
+      "id": "claim_020",
+      "text": "Насадки гидроциклона относятся к настройкам режима и не требуют замены оборудования (низкий CAPEX).",
+      "source_ref": "doc_grinding_classification",
+      "source_page": 205,
+      "confidence": 0.82,
+      "evidence_type": "literature"
+    }
+  ],
+  "entities": [
+    { "id": "node_hydrocyclone_nozzle", "kind": "factor", "label": "диаметр песковой насадки гидроциклона", "tags": ["controllable"], "properties": { "unit": "inch", "capex_class": 1, "equipment_required": "hydrocyclone" } },
+    { "id": "node_mill_liner", "kind": "factor", "label": "футеровка мельницы", "tags": ["controllable"], "properties": { "capex_class": 2, "equipment_required": "ball_mill" } },
+    { "id": "node_ball_charge", "kind": "factor", "label": "шаровая загрузка мельницы", "tags": ["controllable"], "properties": { "capex_class": 1, "equipment_required": "ball_mill" } },
+    { "id": "node_agitation_time", "kind": "factor", "label": "время агитации", "tags": ["controllable"], "properties": { "capex_class": 1, "equipment_required": "flotation_bank" } },
+    { "id": "node_pulp_density", "kind": "factor", "label": "плотность пульпы", "tags": ["controllable"], "properties": { "capex_class": 1, "equipment_required": "contact_tank" } },
+    { "id": "node_classification_control", "kind": "factor", "label": "контроль классификации слива", "tags": ["controllable"], "properties": { "capex_class": 1, "equipment_required": "spiral_classifier" } },
+    { "id": "node_collector_reagent", "kind": "factor", "label": "реагент-собиратель", "tags": ["controllable"], "properties": { "capex_class": 1, "equipment_required": "contact_tank" } },
+    { "id": "node_magnetic_separation", "kind": "factor", "label": "магнитная сепарация", "tags": ["controllable"], "properties": { "capex_class": 3, "equipment_required": "magnetic_separator" } },
+    { "id": "node_separation_size", "kind": "mechanism", "label": "граница разделения классификации", "tags": [], "properties": {} },
+    { "id": "node_regrind_circuit", "kind": "mechanism", "label": "цикл доизмельчения", "tags": [], "properties": {} },
+    { "id": "node_grinding_fineness", "kind": "mechanism", "label": "тонина помола", "tags": [], "properties": {} },
+    { "id": "node_liberation", "kind": "mechanism", "label": "раскрытие сростков", "tags": [], "properties": {} },
+    { "id": "node_flotation_kinetics", "kind": "mechanism", "label": "кинетика флотации", "tags": [], "properties": {} },
+    { "id": "node_flotation_selectivity", "kind": "mechanism", "label": "селективность флотации", "tags": [], "properties": {} },
+    { "id": "node_slime_generation", "kind": "mechanism", "label": "образование шламов", "tags": [], "properties": {} },
+    { "id": "node_pyrrhotite_impurity", "kind": "property", "label": "примесь металла в пирротине", "tags": [], "properties": {} },
+    { "id": "node_loss_liberation_deficit", "kind": "property", "label": "потери: недораскрытие сростков", "tags": ["diagnosis"], "properties": { "addressable_tons_element_28": 4794.0 } },
+    { "id": "node_loss_flotation_kinetics", "kind": "property", "label": "потери: кинетика флотации", "tags": ["diagnosis"], "properties": { "addressable_tons_element_28": 2118.7 } },
+    { "id": "node_loss_slimes_overgrinding", "kind": "property", "label": "потери: переизмельчение (шламы)", "tags": ["diagnosis"], "properties": { "addressable_tons_element_28": 856.7 } },
+    { "id": "node_loss_not_recoverable", "kind": "property", "label": "потери: неизвлекаемо", "tags": ["diagnosis"], "properties": { "addressable_tons_element_28": 1149.5 } },
+    { "id": "node_recoverable_losses_element_28", "kind": "kpi", "label": "извлекаемые потери element_28", "tags": ["kpi"], "properties": {} }
+  ],
+  "edges": [
+    { "id": "edge_001", "src": "node_hydrocyclone_nozzle", "dst": "node_separation_size", "edge_type": "mechanism", "mechanism": "classification_cut_size", "source_claims": ["claim_001"], "polarity": "negative" },
+    { "id": "edge_002", "src": "node_separation_size", "dst": "node_regrind_circuit", "edge_type": "mechanism", "mechanism": "coarse_return", "source_claims": ["claim_003"], "polarity": "positive" },
+    { "id": "edge_003", "src": "node_regrind_circuit", "dst": "node_liberation", "edge_type": "mechanism", "mechanism": "size_reduction", "source_claims": ["claim_003", "claim_016"], "polarity": "positive" },
+    { "id": "edge_004", "src": "node_mill_liner", "dst": "node_grinding_fineness", "edge_type": "mechanism", "mechanism": "grinding_intensity", "source_claims": ["claim_002"], "polarity": "positive" },
+    { "id": "edge_005", "src": "node_ball_charge", "dst": "node_grinding_fineness", "edge_type": "mechanism", "mechanism": "grinding_intensity", "source_claims": ["claim_002"], "polarity": "positive" },
+    { "id": "edge_006", "src": "node_grinding_fineness", "dst": "node_liberation", "edge_type": "mechanism", "mechanism": "size_reduction", "source_claims": ["claim_003"], "polarity": "positive" },
+    { "id": "edge_007", "src": "node_liberation", "dst": "node_loss_liberation_deficit", "edge_type": "mechanism", "mechanism": "liberation_recovery", "source_claims": ["claim_004"], "polarity": "negative" },
+    { "id": "edge_008", "src": "node_agitation_time", "dst": "node_flotation_kinetics", "edge_type": "mechanism", "mechanism": "contact_probability", "source_claims": ["claim_010"], "polarity": "positive" },
+    { "id": "edge_009", "src": "node_pulp_density", "dst": "node_flotation_kinetics", "edge_type": "mechanism", "mechanism": "pulp_regime", "source_claims": ["claim_011"], "polarity": "positive" },
+    { "id": "edge_010", "src": "node_flotation_kinetics", "dst": "node_loss_flotation_kinetics", "edge_type": "mechanism", "mechanism": "kinetics_recovery", "source_claims": ["claim_010", "claim_011"], "polarity": "negative" },
+    { "id": "edge_011", "src": "node_classification_control", "dst": "node_slime_generation", "edge_type": "mechanism", "mechanism": "overgrinding_control", "source_claims": ["claim_012"], "polarity": "negative" },
+    { "id": "edge_012", "src": "node_slime_generation", "dst": "node_loss_slimes_overgrinding", "edge_type": "mechanism", "mechanism": "slime_loss", "source_claims": ["claim_008", "claim_013"], "polarity": "positive" },
+    { "id": "edge_013", "src": "node_grinding_fineness", "dst": "node_slime_generation", "edge_type": "tradeoff", "mechanism": "overgrinding", "source_claims": ["claim_013"], "polarity": "positive" },
+    { "id": "edge_014", "src": "node_magnetic_separation", "dst": "node_pyrrhotite_impurity", "edge_type": "mechanism", "mechanism": "magnetic_removal", "source_claims": ["claim_015"], "polarity": "negative" },
+    { "id": "edge_015", "src": "node_pyrrhotite_impurity", "dst": "node_loss_not_recoverable", "edge_type": "mechanism", "mechanism": "impurity_loss", "source_claims": ["claim_017"], "polarity": "positive" },
+    { "id": "edge_016", "src": "node_collector_reagent", "dst": "node_flotation_selectivity", "edge_type": "mechanism", "mechanism": "collector_selectivity", "source_claims": ["claim_018"], "polarity": "positive" },
+    { "id": "edge_017", "src": "node_flotation_selectivity", "dst": "node_loss_flotation_kinetics", "edge_type": "mechanism", "mechanism": "selectivity_recovery", "source_claims": ["claim_018"], "polarity": "negative" },
+    { "id": "edge_018", "src": "node_hydrocyclone_nozzle", "dst": "node_classification_control", "edge_type": "substitution", "mechanism": "classification_lever", "source_claims": ["claim_001", "claim_012"], "polarity": "positive" },
+    { "id": "edge_019", "src": "node_loss_liberation_deficit", "dst": "node_recoverable_losses_element_28", "edge_type": "mechanism", "mechanism": "loss_contribution", "source_claims": ["claim_004"], "polarity": "positive" },
+    { "id": "edge_020", "src": "node_loss_flotation_kinetics", "dst": "node_recoverable_losses_element_28", "edge_type": "mechanism", "mechanism": "loss_contribution", "source_claims": ["claim_010"], "polarity": "positive" }
+  ]
+}

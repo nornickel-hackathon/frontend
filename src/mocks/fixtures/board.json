@@ -1,0 +1,294 @@
+{
+  "snapshot": {
+    "id": "snapshot_kgmk_001",
+    "hash": "sha256:demo-kgmk-001",
+    "pack_id": "flotation-v1"
+  },
+  "kpi_contract": {
+    "factory_id": "kgmk",
+    "target": {
+      "metric": "recoverable_losses_element_28",
+      "direction": "decrease",
+      "minimum_delta_percent": 10
+    },
+    "constraints": [
+      { "metric": "capex_class", "op": "<=", "value": 3, "unit": "class" }
+    ],
+    "prices_usd_per_t": { "element_28": 16500, "element_29": 9500 },
+    "weights_override": {},
+    "excluded_factors": []
+  },
+  "diagnostics": {
+    "factory_id": "kgmk",
+    "pack_id": "flotation-v1",
+    "source_file": "norn-hack/Пример 1/Хвосты КГМК.xlsx",
+    "sections": ["rock"],
+    "totals": {
+      "tails_smt": 5824591,
+      "element_28": { "pct": 0.1784, "tons": 10392.3 },
+      "element_29": { "pct": 0.0726, "tons": 4229.7 }
+    },
+    "loss_cells": [
+      { "section": "rock", "size_class": "+125", "mineral_form": "closed_pnt_cp", "element": "element_28", "tons": 612.4, "share_of_class_pct": 71.2, "recoverable": true, "diagnosis": "liberation_deficit", "cell_ref": "Итог!E42" },
+      { "section": "rock", "size_class": "+125", "mineral_form": "silicate_valleriite", "element": "element_28", "tons": 248.1, "share_of_class_pct": 28.8, "recoverable": false, "diagnosis": "not_recoverable", "cell_ref": "Итог!F42" },
+      { "section": "rock", "size_class": "-125 +71", "mineral_form": "closed_pnt_cp", "element": "element_28", "tons": 1088.7, "share_of_class_pct": 74.6, "recoverable": true, "diagnosis": "liberation_deficit", "cell_ref": "Итог!E43" },
+      { "section": "rock", "size_class": "-125 +71", "mineral_form": "open_pnt_cp", "element": "element_28", "tons": 214.5, "share_of_class_pct": 14.7, "recoverable": true, "diagnosis": "flotation_kinetics", "cell_ref": "Итог!D43" },
+      { "section": "rock", "size_class": "+71", "mineral_form": "closed_pnt_cp", "element": "element_28", "tons": 2088.3, "share_of_class_pct": 77.9, "recoverable": true, "diagnosis": "liberation_deficit", "cell_ref": "Итог!E44" },
+      { "section": "rock", "size_class": "+71", "mineral_form": "open_pnt_cp", "element": "element_28", "tons": 342.6, "share_of_class_pct": 12.8, "recoverable": true, "diagnosis": "flotation_kinetics", "cell_ref": "Итог!D44" },
+      { "section": "rock", "size_class": "+71", "mineral_form": "pyrrhotite_impurity", "element": "element_28", "tons": 249.7, "share_of_class_pct": 9.3, "recoverable": false, "diagnosis": "not_recoverable", "cell_ref": "Итог!G44" },
+      { "section": "rock", "size_class": "-71 +45", "mineral_form": "closed_pnt_cp", "element": "element_28", "tons": 1004.6, "share_of_class_pct": 68.4, "recoverable": true, "diagnosis": "liberation_deficit", "cell_ref": "Итог!E45" },
+      { "section": "rock", "size_class": "-71 +45", "mineral_form": "open_pnt_cp", "element": "element_28", "tons": 388.9, "share_of_class_pct": 26.5, "recoverable": true, "diagnosis": "flotation_kinetics", "cell_ref": "Итог!D45" },
+      { "section": "rock", "size_class": "-45 +20", "mineral_form": "open_pnt_cp", "element": "element_28", "tons": 671.2, "share_of_class_pct": 58.1, "recoverable": true, "diagnosis": "flotation_kinetics", "cell_ref": "Итог!D46" },
+      { "section": "rock", "size_class": "-45 +20", "mineral_form": "millerite", "element": "element_28", "tons": 132.4, "share_of_class_pct": 11.5, "recoverable": true, "diagnosis": "flotation_kinetics", "cell_ref": "Итог!H46" },
+      { "section": "rock", "size_class": "-20 +10", "mineral_form": "open_pnt_cp", "element": "element_28", "tons": 512.4, "share_of_class_pct": 62.3, "recoverable": true, "diagnosis": "flotation_kinetics", "cell_ref": "Итог!D47" },
+      { "section": "rock", "size_class": "-20 +10", "mineral_form": "silicate_valleriite", "element": "element_28", "tons": 186.3, "share_of_class_pct": 22.7, "recoverable": false, "diagnosis": "not_recoverable", "cell_ref": "Итог!F47" },
+      { "section": "rock", "size_class": "-10", "mineral_form": "open_pnt_cp", "element": "element_28", "tons": 856.7, "share_of_class_pct": 64.8, "recoverable": true, "diagnosis": "slimes_overgrinding", "cell_ref": "Итог!D48" },
+      { "section": "rock", "size_class": "-10", "mineral_form": "pyrrhotite_impurity", "element": "element_28", "tons": 465.4, "share_of_class_pct": 35.2, "recoverable": false, "diagnosis": "not_recoverable", "cell_ref": "Итог!G48" },
+      { "section": "rock", "size_class": "+71", "mineral_form": "closed_pnt_cp", "element": "element_29", "tons": 742.1, "share_of_class_pct": 71.5, "recoverable": true, "diagnosis": "liberation_deficit", "cell_ref": "Итог!E60" },
+      { "section": "rock", "size_class": "-71 +45", "mineral_form": "closed_pnt_cp", "element": "element_29", "tons": 468.3, "share_of_class_pct": 63.2, "recoverable": true, "diagnosis": "liberation_deficit", "cell_ref": "Итог!E61" },
+      { "section": "rock", "size_class": "-45 +20", "mineral_form": "open_pnt_cp", "element": "element_29", "tons": 331.5, "share_of_class_pct": 54.9, "recoverable": true, "diagnosis": "flotation_kinetics", "cell_ref": "Итог!D62" },
+      { "section": "rock", "size_class": "-10", "mineral_form": "open_pnt_cp", "element": "element_29", "tons": 402.8, "share_of_class_pct": 61.1, "recoverable": true, "diagnosis": "slimes_overgrinding", "cell_ref": "Итог!D64" },
+      { "section": "rock", "size_class": "-10", "mineral_form": "silicate_valleriite", "element": "element_29", "tons": 256.7, "share_of_class_pct": 38.9, "recoverable": false, "diagnosis": "not_recoverable", "cell_ref": "Итог!F64" }
+    ],
+    "diagnosis_summary": [
+      { "diagnosis": "liberation_deficit", "element": "element_28", "tons": 4794.0 },
+      { "diagnosis": "flotation_kinetics", "element": "element_28", "tons": 2262.0 },
+      { "diagnosis": "slimes_overgrinding", "element": "element_28", "tons": 856.7 },
+      { "diagnosis": "not_recoverable", "element": "element_28", "tons": 1149.5 },
+      { "diagnosis": "liberation_deficit", "element": "element_29", "tons": 1210.4 },
+      { "diagnosis": "flotation_kinetics", "element": "element_29", "tons": 331.5 },
+      { "diagnosis": "slimes_overgrinding", "element": "element_29", "tons": 402.8 },
+      { "diagnosis": "not_recoverable", "element": "element_29", "tons": 256.7 }
+    ],
+    "data_quality": [
+      { "issue": "ref_error", "location": "Итог! секция +125", "handling": "treated_as_zero" },
+      { "issue": "checksum_mismatch", "location": "класс -10, element_29", "handling": "reported", "delta_pct": 1.8 },
+      { "issue": "merged_cell", "location": "Итог!A40:A48 (подписи классов)", "handling": "reported" }
+    ],
+    "diag_refs": [
+      { "id": "diag_kgmk_closed_71", "cell_ref": "Итог!E44", "size_class": "+71", "mineral_form": "closed_pnt_cp", "diagnosis": "liberation_deficit" },
+      { "id": "diag_kgmk_closed_4571", "cell_ref": "Итог!E45", "size_class": "-71 +45", "mineral_form": "closed_pnt_cp", "diagnosis": "liberation_deficit" },
+      { "id": "diag_kgmk_kinetics_2010", "cell_ref": "Итог!D47", "size_class": "-20 +10", "mineral_form": "open_pnt_cp", "diagnosis": "flotation_kinetics" },
+      { "id": "diag_kgmk_slimes_10", "cell_ref": "Итог!D48", "size_class": "-10", "mineral_form": "open_pnt_cp", "diagnosis": "slimes_overgrinding" }
+    ]
+  },
+  "hypotheses": [
+    {
+      "id": "hyp_001",
+      "title": "Заменить песковые насадки гидроциклонов 12″ → 8″",
+      "summary": "Смещение границы разделения вернёт крупные сростки на доизмельчение и снизит потери закрытого Pnt/Cp в классах +71 и −71+45.",
+      "status": "recommended",
+      "rank": 1,
+      "score_total": 0.82,
+      "score_breakdown": {
+        "kpi_impact": 0.86,
+        "evidence": 0.88,
+        "plausibility": 0.84,
+        "cost": 1.0,
+        "risk": 0.66,
+        "novelty": 0.3
+      },
+      "economic_effect": {
+        "addressable_tons": { "element_28": 4794.0 },
+        "recovery_gain_pct_range": [5, 15],
+        "value_usd_range": [3955050, 11865150],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "recovery gain 5–15% из claim_007 (консервативно)"
+        ]
+      },
+      "trace": ["claim_001", "claim_007", "diag_kgmk_closed_71"],
+      "source_nodes": ["node_hydrocyclone_nozzle", "node_separation_size", "node_regrind_circuit", "node_liberation", "node_loss_liberation_deficit"],
+      "risks": ["Рост циркулирующей нагрузки на мельницы — проверить производительность помольного передела"],
+      "missing_evidence": ["Нет claim о влиянии на извлечение element_29"],
+      "doe_plan": {
+        "objective": "Проверить рост раскрытия закрытых сростков в классах +71/−71+45 после замены насадок.",
+        "factors": ["диаметр песковой насадки", "давление на входе ГЦ"],
+        "measurements": ["гранулометрия слива", "доля закрытого Pnt/Cp по классам", "извлечение element_28"],
+        "minimum_runs": 6
+      },
+      "expert_match": { "matched": true, "expert_hypothesis_id": "kgmk_h3" }
+    },
+    {
+      "id": "hyp_002",
+      "title": "Доизмельчение крупных классов: футеровка и шаровая загрузка мельниц",
+      "summary": "Повышение тонины помола в крупных классах раскрывает закрытые сростки Pnt/Cp и адресует основную долю недораскрытия.",
+      "status": "recommended",
+      "rank": 2,
+      "score_total": 0.77,
+      "score_breakdown": {
+        "kpi_impact": 0.82,
+        "evidence": 0.8,
+        "plausibility": 0.86,
+        "cost": 0.7,
+        "risk": 0.6,
+        "novelty": 0.3
+      },
+      "economic_effect": {
+        "addressable_tons": { "element_28": 3005.0 },
+        "recovery_gain_pct_range": [4, 12],
+        "value_usd_range": [1983300, 5949900],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "recovery gain 4–12% из claim_003 (консервативно)"
+        ]
+      },
+      "trace": ["claim_002", "claim_003", "diag_kgmk_closed_4571"],
+      "source_nodes": ["node_mill_liner", "node_ball_charge", "node_grinding_fineness", "node_liberation", "node_loss_liberation_deficit"],
+      "risks": ["Рост удельного расхода электроэнергии", "Риск переизмельчения и роста шламов класса −10"],
+      "missing_evidence": ["Нет данных по фактическому износу футеровки на КГМК"],
+      "doe_plan": {
+        "objective": "Оценить прирост раскрытия при повышении тонины помола без роста доли шламов.",
+        "factors": ["тип футеровки", "шаровая загрузка", "производительность мельницы"],
+        "measurements": ["гранулометрия разгрузки", "доля закрытого Pnt/Cp", "доля класса −10"],
+        "minimum_runs": 8
+      },
+      "expert_match": { "matched": true, "expert_hypothesis_id": "kgmk_h1" }
+    },
+    {
+      "id": "hyp_003",
+      "title": "Оптимизировать время агитации и плотность пульпы во фронте флотации",
+      "summary": "Раскрытый Pnt/Cp в средних классах теряется из-за кинетики: рост времени контакта и корректировка плотности повышают извлечение.",
+      "status": "watch",
+      "rank": 3,
+      "score_total": 0.68,
+      "score_breakdown": {
+        "kpi_impact": 0.64,
+        "evidence": 0.72,
+        "plausibility": 0.78,
+        "cost": 1.0,
+        "risk": 0.7,
+        "novelty": 0.3
+      },
+      "economic_effect": {
+        "addressable_tons": { "element_28": 2118.7 },
+        "recovery_gain_pct_range": [3, 9],
+        "value_usd_range": [1048755, 3146265],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "recovery gain 3–9% из claim_011 (консервативно)"
+        ]
+      },
+      "trace": ["claim_010", "claim_011", "diag_kgmk_kinetics_2010"],
+      "source_nodes": ["node_agitation_time", "node_pulp_density", "node_flotation_kinetics", "node_loss_flotation_kinetics"],
+      "risks": ["Снижение производительности флотомашин при росте времени контакта"],
+      "missing_evidence": ["Нет claim о взаимодействии с реагентным режимом"],
+      "doe_plan": {
+        "objective": "Найти оптимум времени агитации и плотности пульпы для средних классов.",
+        "factors": ["время агитации", "плотность пульпы"],
+        "measurements": ["извлечение element_28 по классам", "скорость флотации"],
+        "minimum_runs": 6
+      },
+      "expert_match": { "matched": true, "expert_hypothesis_id": "kgmk_h5" }
+    },
+    {
+      "id": "hyp_004",
+      "title": "Контроль гранулометрии слива: не переизмельчать класс −10",
+      "summary": "Раскрытый Pnt/Cp в классе −10 уходит в шламы. Стабилизация классификации снижает переизмельчение и потери тонких классов.",
+      "status": "watch",
+      "rank": 4,
+      "score_total": 0.61,
+      "score_breakdown": {
+        "kpi_impact": 0.5,
+        "evidence": 0.62,
+        "plausibility": 0.74,
+        "cost": 1.0,
+        "risk": 0.75,
+        "novelty": 0.55
+      },
+      "economic_effect": {
+        "addressable_tons": { "element_28": 856.7 },
+        "recovery_gain_pct_range": [2, 7],
+        "value_usd_range": [282711, 989569],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "recovery gain 2–7% из claim_012 (консервативно)"
+        ]
+      },
+      "trace": ["claim_012", "diag_kgmk_slimes_10"],
+      "source_nodes": ["node_classification_control", "node_slime_generation", "node_loss_slimes_overgrinding"],
+      "risks": ["Эффект чувствителен к стабильности питания цикла"],
+      "missing_evidence": ["Нет claim о влиянии на общий баланс воды в цикле"],
+      "doe_plan": {
+        "objective": "Проверить снижение доли класса −10 при стабилизации классификации.",
+        "factors": ["плотность слива классификатора", "циркулирующая нагрузка"],
+        "measurements": ["доля класса −10", "извлечение element_28 в тонких классах"],
+        "minimum_runs": 5
+      },
+      "expert_match": null
+    },
+    {
+      "id": "hyp_005",
+      "title": "Магнитная сепарация пирротиновой фракции (новое оборудование)",
+      "summary": "Для потерь в пирротиновой примеси, недоступных существующим рычагам, нужен новый узел — магнитная сепарация. Гипотеза оператора gap.",
+      "status": "recommended",
+      "rank": 5,
+      "score_total": 0.58,
+      "score_breakdown": {
+        "kpi_impact": 0.42,
+        "evidence": 0.55,
+        "plausibility": 0.6,
+        "cost": 0.35,
+        "risk": 0.65,
+        "novelty": 0.8
+      },
+      "economic_effect": {
+        "addressable_tons": { "element_28": 715.1 },
+        "recovery_gain_pct_range": [3, 10],
+        "value_usd_range": [354124, 1179915],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "recovery gain 3–10% из claim_015 (оценка по аналогии)",
+          "capex_class 3 — новое оборудование (оператор gap)"
+        ]
+      },
+      "trace": ["claim_015"],
+      "source_nodes": ["node_magnetic_separation", "node_pyrrhotite_impurity", "node_loss_not_recoverable"],
+      "risks": ["Высокий CAPEX", "Часть пирротиновой примеси может остаться неизвлекаемой"],
+      "missing_evidence": ["Нет пилотных данных по магнитной сепарации на данном сырье"],
+      "doe_plan": {
+        "objective": "Оценить извлекаемость element_28 из пирротиновой фракции магнитной сепарацией.",
+        "factors": ["напряжённость поля", "скорость подачи"],
+        "measurements": ["извлечение element_28 из пирротиновой фракции", "содержание в немагнитном продукте"],
+        "minimum_runs": 4
+      },
+      "expert_match": { "matched": true, "expert_hypothesis_id": "kgmk_h7" }
+    },
+    {
+      "id": "hyp_006",
+      "title": "Замена реагента-собирателя на селективный к Pnt/Cp",
+      "summary": "Смена собирателя может повысить селективность к целевым минералам, но влияние на KPI не покрыто ни одним claim — нужен экспертный разбор.",
+      "status": "needs_expert_review",
+      "rank": 6,
+      "score_total": 0.52,
+      "score_breakdown": {
+        "kpi_impact": 0.38,
+        "evidence": 0.4,
+        "plausibility": 0.55,
+        "cost": 1.0,
+        "risk": 0.6,
+        "novelty": 0.6
+      },
+      "economic_effect": {
+        "addressable_tons": { "element_28": 2118.7 },
+        "recovery_gain_pct_range": [1, 6],
+        "value_usd_range": [349585, 2097510],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "recovery gain 1–6% из claim_018 (низкая уверенность, inferred)"
+        ]
+      },
+      "trace": ["claim_018"],
+      "source_nodes": ["node_collector_reagent", "node_flotation_selectivity", "node_loss_flotation_kinetics"],
+      "risks": ["Влияние на извлечение element_29 не оценено", "Расход реагента и стоимость под вопросом"],
+      "missing_evidence": ["Нет claim с прямым измерением влияния собирателя на извлечение целевого металла"],
+      "doe_plan": {
+        "objective": "Сравнить базовый и селективный собиратели по извлечению целевых минералов.",
+        "factors": ["тип собирателя", "расход собирателя"],
+        "measurements": ["извлечение element_28", "извлечение element_29", "селективность"],
+        "minimum_runs": 6
+      },
+      "expert_match": null
+    }
+  ]
+}

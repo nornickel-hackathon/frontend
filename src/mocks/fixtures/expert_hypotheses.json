@@ -1,0 +1,32 @@
+[
+  { "id": "kgmk_h1", "factory_id": "kgmk", "text": "Повысить тонину помола в крупных классах за счёт футеровки и шаровой загрузки мельниц для раскрытия закрытых сростков Pnt/Cp.", "lever_type": "grinding", "diagnosis_hint": "liberation_deficit" },
+  { "id": "kgmk_h2", "factory_id": "kgmk", "text": "Установить грохота тонкого грохочения для контроля верхней границы крупности перед флотацией.", "lever_type": "classification", "diagnosis_hint": "liberation_deficit" },
+  { "id": "kgmk_h3", "factory_id": "kgmk", "text": "Замена песковых насадок на гидроциклонах с уменьшением диаметра с 12 на 8 для смещения границы разделения.", "lever_type": "classification", "diagnosis_hint": "liberation_deficit" },
+  { "id": "kgmk_h4", "factory_id": "kgmk", "text": "Оптимизировать реагентный режим основной флотации подбором вспенивателя.", "lever_type": "reagents", "diagnosis_hint": "flotation_kinetics" },
+  { "id": "kgmk_h5", "factory_id": "kgmk", "text": "Увеличить время агитации и скорректировать плотность пульпы во фронте флотации для средних классов.", "lever_type": "flotation", "diagnosis_hint": "flotation_kinetics" },
+  { "id": "kgmk_h6", "factory_id": "kgmk", "text": "Внедрить автоматический контроль гранулометрии слива классификатора.", "lever_type": "automation", "diagnosis_hint": "slimes_overgrinding" },
+  { "id": "kgmk_h7", "factory_id": "kgmk", "text": "Рассмотреть магнитную сепарацию для вывода железистой пирротиновой фракции.", "lever_type": "new_equipment", "diagnosis_hint": "not_recoverable" },
+
+  { "id": "nof_vkr_h1", "factory_id": "nof_vkr", "text": "Доизмельчение промпродукта для раскрытия вкрапленных сростков пентландита.", "lever_type": "grinding", "diagnosis_hint": "liberation_deficit" },
+  { "id": "nof_vkr_h2", "factory_id": "nof_vkr", "text": "Оптимизация схемы перечистных операций для повышения качества концентрата.", "lever_type": "flotation", "diagnosis_hint": "flotation_kinetics" },
+  { "id": "nof_vkr_h3", "factory_id": "nof_vkr", "text": "Замена насадок гидроциклонов для смещения границы разделения в тонкую сторону.", "lever_type": "classification", "diagnosis_hint": "liberation_deficit" },
+  { "id": "nof_vkr_h4", "factory_id": "nof_vkr", "text": "Подбор селективного собирателя для вкрапленной руды.", "lever_type": "reagents", "diagnosis_hint": "flotation_kinetics" },
+  { "id": "nof_vkr_h5", "factory_id": "nof_vkr", "text": "Контроль переизмельчения в цикле измельчения для снижения потерь со шламами.", "lever_type": "classification", "diagnosis_hint": "slimes_overgrinding" },
+  { "id": "nof_vkr_h6", "factory_id": "nof_vkr", "text": "Стабилизация плотности пульпы автоматической системой регулирования.", "lever_type": "automation", "diagnosis_hint": "flotation_kinetics" },
+
+  { "id": "nof_med_h1", "factory_id": "nof_med", "text": "Повышение раскрытия халькопирита доизмельчением медистой фракции.", "lever_type": "grinding", "diagnosis_hint": "liberation_deficit" },
+  { "id": "nof_med_h2", "factory_id": "nof_med", "text": "Оптимизация pH и реагентного режима медного цикла флотации.", "lever_type": "reagents", "diagnosis_hint": "flotation_kinetics" },
+  { "id": "nof_med_h3", "factory_id": "nof_med", "text": "Увеличение фронта флотации для медленно флотируемых зёрен.", "lever_type": "flotation", "diagnosis_hint": "flotation_kinetics" },
+  { "id": "nof_med_h4", "factory_id": "nof_med", "text": "Классификация гидроциклонами для отсечения крупных сростков.", "lever_type": "classification", "diagnosis_hint": "liberation_deficit" },
+  { "id": "nof_med_h5", "factory_id": "nof_med", "text": "Контроль шламообразования при измельчении медистой руды.", "lever_type": "classification", "diagnosis_hint": "slimes_overgrinding" },
+  { "id": "nof_med_h6", "factory_id": "nof_med", "text": "Автоматизация дозирования реагентов по содержанию меди в питании.", "lever_type": "automation", "diagnosis_hint": "flotation_kinetics" },
+  { "id": "nof_med_h7", "factory_id": "nof_med", "text": "Флотационное доизвлечение из отвальных хвостов медного цикла.", "lever_type": "flotation", "diagnosis_hint": "flotation_kinetics" },
+
+  { "id": "tof_h1", "factory_id": "tof", "text": "Раздельная переработка породных и пирротиновых хвостов с доизмельчением породной секции.", "lever_type": "grinding", "diagnosis_hint": "liberation_deficit" },
+  { "id": "tof_h2", "factory_id": "tof", "text": "Магнитная сепарация пирротиновых хвостов для вывода железистой фракции.", "lever_type": "new_equipment", "diagnosis_hint": "not_recoverable" },
+  { "id": "tof_h3", "factory_id": "tof", "text": "Замена насадок гидроциклонов в цикле классификации породной секции.", "lever_type": "classification", "diagnosis_hint": "liberation_deficit" },
+  { "id": "tof_h4", "factory_id": "tof", "text": "Оптимизация времени флотации пирротиновой секции.", "lever_type": "flotation", "diagnosis_hint": "flotation_kinetics" },
+  { "id": "tof_h5", "factory_id": "tof", "text": "Контроль гранулометрии для снижения переизмельчения тонких классов.", "lever_type": "classification", "diagnosis_hint": "slimes_overgrinding" },
+  { "id": "tof_h6", "factory_id": "tof", "text": "Подбор собирателя, селективного к пентландиту в присутствии пирротина.", "lever_type": "reagents", "diagnosis_hint": "flotation_kinetics" },
+  { "id": "tof_h7", "factory_id": "tof", "text": "Автоматизация распределения потоков между секциями хвостов.", "lever_type": "automation", "diagnosis_hint": "flotation_kinetics" }
+]
