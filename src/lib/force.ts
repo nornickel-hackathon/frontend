@@ -5,6 +5,9 @@ export interface ForceBody {
   vx: number
   vy: number
   pinned: boolean
+  /** Half-width of the node's label text, in px — keeps long Cyrillic labels
+   *  from overlapping (plain point-repulsion only spaces out the dots). */
+  labelRadius: number
 }
 
 export interface ForceLink {
@@ -14,17 +17,35 @@ export interface ForceLink {
 
 const REPULSION = 5600
 const SPRING_LENGTH = 132
-const SPRING_STRENGTH = 0.022
+// Weaker than a typical force-graph spring on purpose: long Cyrillic labels
+// need more room than the edge itself "wants", so the label-separation
+// spring below has to be able to win this tug-of-war.
+const SPRING_STRENGTH = 0.014
 const GRAVITY = 0.011
 const DAMPING = 0.82
 const MAX_SPEED = 14
 const GOLDEN_ANGLE = 2.39996
 
-export function createBodies(ids: string[], width: number, height: number): Map<string, ForceBody> {
+// Label-collision avoidance: approximate rendered half-width from character
+// count (~5.6px/char at the graph's 11px label font) and push overlapping
+// labels apart with a dedicated spring, on top of the point repulsion above.
+const LABEL_MIN_RADIUS = 24
+const PX_PER_CHAR = 5.6
+const LABEL_SEPARATION_STRENGTH = 0.16
+
+export function labelRadiusFor(label: string): number {
+  return Math.max(LABEL_MIN_RADIUS, (label.length * PX_PER_CHAR) / 2)
+}
+
+export function createBodies(
+  nodes: { id: string; label: string }[],
+  width: number,
+  height: number,
+): Map<string, ForceBody> {
   const cx = width / 2
   const cy = height / 2
   const bodies = new Map<string, ForceBody>()
-  ids.forEach((id, i) => {
+  nodes.forEach(({ id, label }, i) => {
     const r = 26 * Math.sqrt(i + 0.6)
     const angle = i * GOLDEN_ANGLE
     bodies.set(id, {
@@ -34,6 +55,7 @@ export function createBodies(ids: string[], width: number, height: number): Map<
       vx: 0,
       vy: 0,
       pinned: false,
+      labelRadius: labelRadiusFor(label),
     })
   })
   return bodies
@@ -69,8 +91,16 @@ export function tick(
       }
       const force = REPULSION / distSq
       const dist = Math.sqrt(distSq)
-      const fx = (dx / dist) * force
-      const fy = (dy / dist) * force
+      let fx = (dx / dist) * force
+      let fy = (dy / dist) * force
+
+      const minSep = a.labelRadius + b.labelRadius
+      if (dist < minSep) {
+        const push = (minSep - dist) * LABEL_SEPARATION_STRENGTH
+        fx += (dx / dist) * push
+        fy += (dy / dist) * push
+      }
+
       a.vx += fx
       a.vy += fy
       b.vx -= fx

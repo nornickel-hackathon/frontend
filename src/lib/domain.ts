@@ -35,6 +35,17 @@ export const SIZE_CLASS_ORDER: string[] = [
   '-10',
 ]
 
+/**
+ * Size-class labels come from literal xlsx header text (anchored parser,
+ * AGENT_RULES §1 — no fixed cell coordinates), so spacing around the `+`
+ * varies between plants and even between sections of the same file (e.g.
+ * ТОФ mixes "-71 +45" and "-71 + 45"). Compare on this normalized form
+ * instead of the raw string everywhere size classes are matched.
+ */
+export function normalizeSizeClass(value: string): string {
+  return value.replace(/\s+/g, '')
+}
+
 export const MINERAL_FORM_ORDER: MineralForm[] = [
   'open_pnt_cp',
   'closed_pnt_cp',

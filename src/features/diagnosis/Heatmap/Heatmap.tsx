@@ -3,7 +3,13 @@ import type { DiagnosticsReport, Element, LossCell, TailsSection } from '@/contr
 import { useT } from '@/i18n/index.tsx'
 import { cx } from '@/lib/cx.ts'
 import { formatTons } from '@/lib/format.ts'
-import { MINERAL_FORM_ORDER, SIZE_CLASS_ORDER, cellsForElement, maxCellTons } from '@/lib/domain.ts'
+import {
+  MINERAL_FORM_ORDER,
+  SIZE_CLASS_ORDER,
+  cellsForElement,
+  maxCellTons,
+  normalizeSizeClass,
+} from '@/lib/domain.ts'
 import styles from './Heatmap.module.css'
 
 interface HeatmapProps {
@@ -29,12 +35,14 @@ export function Heatmap({ diagnostics, element, section, highlightCellRef }: Hea
   const t = useT()
   const cells = cellsForElement(diagnostics, element, section)
   const forms = MINERAL_FORM_ORDER.filter((f) => cells.some((c) => c.mineral_form === f))
-  const rows = SIZE_CLASS_ORDER.filter((sc) => cells.some((c) => c.size_class === sc))
+  const rows = SIZE_CLASS_ORDER.filter((sc) =>
+    cells.some((c) => normalizeSizeClass(c.size_class) === normalizeSizeClass(sc)),
+  )
   const recoverableMax = maxCellTons(cells.filter((c) => c.recoverable))
 
   const byKey = new Map<string, LossCell>()
   for (const c of cells) {
-    byKey.set(`${c.size_class}|${c.mineral_form}`, c)
+    byKey.set(`${normalizeSizeClass(c.size_class)}|${c.mineral_form}`, c)
   }
 
   return (
@@ -50,7 +58,7 @@ export function Heatmap({ diagnostics, element, section, highlightCellRef }: Hea
           <div key={sizeClass} className={styles.row}>
             <div className={cx(styles.rowHead, styles.headCell)}>{sizeClass}</div>
             {forms.map((form) => {
-              const cell = byKey.get(`${sizeClass}|${form}`)
+              const cell = byKey.get(`${normalizeSizeClass(sizeClass)}|${form}`)
               if (cell === undefined) {
                 return (
                   <div

@@ -15,7 +15,7 @@ describe('ForceGraph', () => {
     expect(canvas).toBeInTheDocument()
     expect(screen.getByText('время агитации в контактных чанах')).toBeInTheDocument()
     expect(screen.getByText('магнитная сепарация пирротиновой фракции')).toBeInTheDocument()
-    expect(screen.getByText('извлекаемые потери element_28 с хвостами')).toBeInTheDocument()
+    expect(screen.getByText('извлекаемые потери элемента 28 с хвостами')).toBeInTheDocument()
     expect(canvas.querySelectorAll('line')).toHaveLength(extract.edges.length)
   })
 

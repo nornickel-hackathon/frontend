@@ -64,7 +64,7 @@ export function ForceGraph({
 
   useEffect(() => {
     bodiesRef.current = createBodies(
-      orderedNodes.map((n) => n.id),
+      orderedNodes.map((n) => ({ id: n.id, label: n.label })),
       width,
       height,
     )

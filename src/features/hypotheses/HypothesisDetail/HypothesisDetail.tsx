@@ -48,6 +48,13 @@ export function HypothesisDetail() {
   const economic = hypothesis.economic_effect
   const doe = hypothesis.doe_plan
   const element28 = economic.addressable_tons.element_28 ?? 0
+  // source_nodes идёт source-first .. kpi-last (см. Candidate в engine) — целевой
+  // узел несёт человекочитаемый label; raw target.metric — техническое id для
+  // сопоставления в движке, не для показа пользователю.
+  const kpiNodeId = hypothesis.source_nodes.at(-1)
+  const targetKpiLabel =
+    extract.data.entities.find((n) => n.id === kpiNodeId)?.label ??
+    board.data.kpi_contract.target.metric
 
   return (
     <div className={styles.screen}>
@@ -91,7 +98,7 @@ export function HypothesisDetail() {
         <ol className={styles.traceList}>
           <li className={styles.traceStep}>
             <span className={styles.traceRole}>{t.detail.traceTargetKpi}</span>
-            <span className={styles.traceText}>{board.data.kpi_contract.target.metric}</span>
+            <span className={styles.traceText}>{targetKpiLabel}</span>
           </li>
           {traceSteps.map((step) => {
             if (step.kind === 'claim') {
